@@ -1,73 +1,74 @@
 
-import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import './Navbar.css';
+import React, { useRef } from 'react'
+import { NavLink } from 'react-router-dom'
+import './Navbar.css'
 
 export default function Navbar() {
-    return (
-        <nav className="navbar navbar-expand-lg custom-navbar">
-            <div className="container-fluid custom-container">
+  const navbarRef = useRef(null)
 
-                <Link className="navbar-brand" to="/">
-                    <span className="brand-icon">✦</span>
-                    Nova<span className="brand-highlight">UI</span>
-                </Link>
+  const token = localStorage.getItem("token")
 
-                <button
-                    className="navbar-toggler custom-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarContent"
-                    aria-controls="navbarContent"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span className="navbar-toggler-icon"></span>
-                </button>
+  const handleNavClick = () => {
+    if (window.innerWidth < 992 && navbarRef.current) {
+      const bsCollapse = window.bootstrap.Collapse.getInstance(
+        navbarRef.current
+      )
 
-                <div
-                    className="collapse navbar-collapse"
-                    id="navbarContent"
-                >
-                    <ul className="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+      if (bsCollapse) {
+        bsCollapse.hide()
+      }
+    }
+  }
 
-                        <li className="nav-item">
-                            <NavLink
-                                className="nav-link"
-                                to="/"
-                                end
-                                data-bs-toggle="collapse"
-                                data-bs-target="#navbarContent"
-                            >
-                                Home
-                            </NavLink>
-                        </li>
+  return (
+    <nav className="navbar navbar-expand-lg custom-navbar">
+      <div className="container-fluid custom-container">
 
-                        <li className="nav-item">
-                            <NavLink
-                                className="nav-link"
-                                to="/login"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#navbarContent"
-                            >
-                                Login
-                            </NavLink>
-                        </li>
+        <NavLink className="navbar-brand" to="/" onClick={handleNavClick}>
+          <span className="brand-icon">✦</span>
+          Nova<span className="brand-highlight">UI</span>
+        </NavLink>
 
-                        <li className="nav-item">
-                            <NavLink
-                                className="nav-link register-btn"
-                                to="/register"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#navbarContent"
-                            >
-                                Get Started →
-                            </NavLink>
-                        </li>
+        <button
+          className="navbar-toggler custom-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarContent"
+          aria-controls="navbarContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    );
+        <div
+          className="collapse navbar-collapse"
+          id="navbarContent"
+          ref={navbarRef}
+        >
+          <ul className="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/" end onClick={handleNavClick}>
+                Home
+              </NavLink>
+            </li>
+
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/login" onClick={handleNavClick}>
+                Login
+              </NavLink>
+            </li>
+
+            <li className="nav-item">
+              <NavLink className="nav-link register-btn" to="/register" onClick={handleNavClick}>
+                Get Started →
+              </NavLink>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+  )
 }
